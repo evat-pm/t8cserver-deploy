@@ -1,0 +1,129 @@
+apiVersion: charts.helm.k8s.io/v1
+kind: Xl
+metadata:
+  name: xl-kubecost
+spec:
+  global:
+    # to set enableExternalSecrets to true requires a secret to be created
+    enableExternalSecrets: false  
+    ingress:
+      # supply what you need for the LB type nginx service
+      annotations:
+        service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
+        service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+        service.beta.kubernetes.io/aws-load-balancer-type: external
+    repository: icr.io/cpopen/turbonomic
+    # use appropriate ebs csi driver based storage class with Retain 
+    # reclaim policy and WaitForFirstConsumer mode.
+    storageClassName: standard-rwo
+    tag: 8.13.5
+    telemetry:
+      automatic:
+        enabled: false
+    # for external db properties refer to https://www.ibm.com/docs/en/tarm/latest?topic=tasks-optional-configuring-remote-database
+    #externalDBName: <yourDB.yourURL.com>
+    # look for properties: in the probe section for additional config
+  nginx:
+    externalTrafficPolicy: Cluster
+    # alternatively to use your own Ingress
+    #httpsRedirect: false
+    #nginxIsPrimaryIngress: false
+
+
+# Probes
+  actionscript:
+    enabled: true
+  actionstream-kafka:
+    enabled: true
+  appdynamics:
+    enabled: false
+  appinsights:
+    enabled: false
+  aws:
+    enabled: true
+  azure:
+    enabled: false
+  datadog:
+    enabled: false
+  dynatrace:
+    enabled: false
+  gcp:
+    enabled: true
+  horizon:
+    enabled: false
+  hpe3par:
+    enabled: false
+  hyperflex:
+    enabled: false
+  hyperv:
+    enabled: false
+  ibmstorage-flashsystem:
+    enabled: false
+  instana:
+    enabled: false
+  jboss:
+    enabled: false
+  jvm:
+    enabled: false
+  kubeturbo:
+    enabled: false
+  mssql:
+    enabled: false
+  mysql:
+    enabled: false
+  netapp:
+    enabled: false
+  newrelic:
+    enabled: false
+  nutanix:
+    enabled: false
+  oneview:
+    enabled: false
+  oracle:
+    enabled: false
+  powervm:
+    enabled: false
+  prometheus:
+    enabled: false
+  prometheus-mysql-exporter:
+    enabled: false
+    # creds for ova and default cnt db
+    #mysql:
+    #  pass: vmturbo
+    #  user: root
+  prometurbo:
+    enabled: false
+  pure:
+    enabled: false
+  scaleio:
+    enabled: false
+  servicenow:
+    enabled: true
+  server-power-modeler:
+    enabled: false
+  snmp:
+    enabled: false
+  suspend:
+    enabled: false
+  tomcat:
+    enabled: false
+  ucs:
+    enabled: false
+  udt:
+    enabled: true
+  vcenter:
+    enabled: false
+  vmax:
+    enabled: false
+  vmm:
+    enabled: false
+  webhooks:
+    enabled: true
+  weblogic:
+    enabled: false
+  websphere:
+    enabled: false
+  wmi:
+    enabled: false
+  xen:
+    enabled: false
